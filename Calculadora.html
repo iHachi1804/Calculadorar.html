@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Calculadora Hello Kitty Kawaii</title>
+<style>
+body {
+    font-family: 'Comic Sans MS', cursive, sans-serif;
+    background-color: #ffe6f2;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    margin: 0;
+}
+
+.calculator {
+    background: #fff0f5 url('https://i.imgur.com/3G7kRzK.png') no-repeat top center;
+    background-size: 80px;
+    border-radius: 25px;
+    padding: 20px;
+    box-shadow: 0px 0px 25px pink;
+    width: 320px;
+}
+
+.display {
+    background-color: #fff;
+    border: 2px solid #ff99cc;
+    border-radius: 15px;
+    padding: 10px;
+    font-size: 24px;
+    text-align: right;
+    margin-bottom: 10px;
+    min-height: 50px;
+    word-wrap: break-word;
+}
+
+.buttons {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px;
+}
+
+.buttons button {
+    padding: 15px;
+    font-size: 18px;
+    border-radius: 15px;
+    border: none;
+    cursor: pointer;
+    background-color: #ffb3d9;
+    color: #fff;
+    transition: 0.2s;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 5px;
+}
+
+.buttons button:hover {
+    transform: scale(1.1);
+}
+
+.operator {
+    background-color: #ff66b3;
+}
+
+.operator:hover {
+    background-color: #ff3385;
+}
+
+.equal {
+    grid-column: span 2;
+    background-color: #ff3399;
+}
+
+.equal:hover {
+    background-color: #e60073;
+}
+
+.history {
+    background: #fff0f5;
+    border: 2px solid #ff99cc;
+    border-radius: 15px;
+    padding: 10px;
+    margin-top: 15px;
+    max-height: 100px;
+    overflow-y: auto;
+    font-size: 14px;
+}
+button img {
+    width: 24px;
+    height: 24px;
+}
+</style>
+</head>
+<body>
+<div class="calculator">
+    <div class="display" id="display">0</div>
+    <div class="buttons">
+        <button onclick="clearDisplay()"><img src="https://i.imgur.com/1Y7j6Se.png" alt="C">C</button>
+        <button onclick="allClear()"><img src="https://i.imgur.com/qE8N1m1.png" alt="AC">AC</button>
+        <button onclick="appendSymbol('Math.sqrt(')"><img src="https://i.imgur.com/L3LJdMe.png" alt="√">√</button>
+        <button class="operator" onclick="appendSymbol('/')"><img src="https://i.imgur.com/vQe1xK2.png" alt="/">÷</button>
+
+        <button onclick="appendSymbol('7')"><img src="https://i.imgur.com/7yM7WlK.png" alt="7">7</button>
+        <button onclick="appendSymbol('8')"><img src="https://i.imgur.com/F1eZx9R.png" alt="8">8</button>
+        <button onclick="appendSymbol('9')"><img src="https://i.imgur.com/OpZGRZw.png" alt="9">9</button>
+        <button class="operator" onclick="appendSymbol('*')"><img src="https://i.imgur.com/3O4ZzWZ.png" alt="*">×</button>
+
+        <button onclick="appendSymbol('4')"><img src="https://i.imgur.com/f9YUv0g.png" alt="4">4</button>
+        <button onclick="appendSymbol('5')"><img src="https://i.imgur.com/tjZlT1S.png" alt="5">5</button>
+        <button onclick="appendSymbol('6')"><img src="https://i.imgur.com/J1jV0uZ.png" alt="6">6</button>
+        <button class="operator" onclick="appendSymbol('-')"><img src="https://i.imgur.com/cbptCnk.png" alt="-">-</button>
+
+        <button onclick="appendSymbol('1')"><img src="https://i.imgur.com/U7sK0kR.png" alt="1">1</button>
+        <button onclick="appendSymbol('2')"><img src="https://i.imgur.com/0n9fRuo.png" alt="2">2</button>
+        <button onclick="appendSymbol('3')"><img src="https://i.imgur.com/4Wp1Q0C.png" alt="3">3</button>
+        <button class="operator" onclick="appendSymbol('+')"><img src="https://i.imgur.com/xC6T49N.png" alt="+">+</button>
+
+        <button onclick="appendSymbol('0')"><img src="https://i.imgur.com/VfD6kXs.png" alt="0">0</button>
+        <button onclick="appendSymbol('.')"><img src="https://i.imgur.com/A9i2ZpQ.png" alt=".">.</button>
+        <button onclick="appendSymbol('%')"><img src="https://i.imgur.com/HhYf2Lk.png" alt="%">%</button>
+        <button class="equal" onclick="calculateResult()"><img src="https://i.imgur.com/3yK9nPj.png" alt="=">=</button>
+    </div>
+    <div class="history" id="history">
+        <strong>Historial:</strong>
+        <div id="historyContent"></div>
+    </div>
+</div>
+
+<script>
+const display = document.getElementById('display');
+const historyContent = document.getElementById('historyContent');
+
+function appendSymbol(symbol) {
+    if(display.innerText === '0'){
+        display.innerText = symbol;
+    } else {
+        display.innerText += symbol;
+    }
+}
+
+function clearDisplay() {
+    display.innerText = '0';
+}
+
+function allClear() {
+    display.innerText = '0';
+    historyContent.innerHTML = '';
+}
+
+function calculateResult() {
+    try {
+        let result = eval(display.innerText);
+        addToHistory(display.innerText + ' = ' + result);
+        display.innerText = result;
+    } catch (e) {
+        display.innerText = 'Error';
+    }
+}
+
+function addToHistory(entry) {
+    const div = document.createElement('div');
+    div.textContent = entry;
+    historyContent.prepend(div);
+}
+</script>
+</body>
+</html>
